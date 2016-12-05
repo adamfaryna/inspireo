@@ -5,11 +5,12 @@
   "description": "",
   "main": "./bin/www",
   "scripts": {
-    "start": "npm run _dev && concurrently --kill-others \"ng serve\" \"npm run _server\" \"gulp watch\"",
-    "_server": "nodemon ./bin/www",
-    "_dev": "gulp",
-    "dist": "npm run _server",
-    "postinstall": "gulp build && ng build"
+    "start": "npm run build && concurrently --kill-others \"ng serve\" \"npm run _server:dist\" \"gulp watch\"",
+    "debug": "npm run build && concurrently --kill-others \"ng serve\" \"npm run _server:debug\" \"gulp watch\"",
+    "_server:debug": "DEBUG=express:* & nodemon ./bin/www",
+    "_server:dist": "nodemon ./bin/www",
+    "build": "gulp build",
+    "postinstall": "npm run build && ng build"
   },
   "private": true,
   "dependencies": {
