@@ -42,7 +42,7 @@ gulp.task('style', done => {
 
 gulp.task('ts', done => {
   gulp.src(paths.ts, { base: paths.input})
-    .pipe(gulp.dest('./src'))
+    .pipe(gulp.dest(paths.output))
     .on('end', done);
 });
 
