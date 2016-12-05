@@ -14,7 +14,7 @@ const paths = {
   style: ['./src/**/*.style'],
   pug: ['./src/**/*.pug'],
   ts: ['./src/**/*.ts'],
-  others: ['./src/**/*.json', './src/**/*.js', './src/**/*.ico', './src/**/*.ttf'],
+  others: ['./src/**/*.json', './src/**/*.js', './src/**/*.ico', './src/**/*.ttf', './src/**/.*'],
   input: './src',
   output: './build'
 };
