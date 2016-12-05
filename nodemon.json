@@ -1,0 +1,12 @@
+{
+  "verbose": false,
+  "ignore": [
+    ".git",
+    "node_modules"
+  ],
+  "watch": [
+    "bin/www",
+    "app.js"
+  ],
+  "ext": "js json"
+}
