@@ -4,6 +4,8 @@ const pug = require('gulp-pug');
 const clean = require('gulp-clean');
 const stylus = require('gulp-stylus');
 const runSequence = require('run-sequence');
+const vinylPaths = require('vinyl-paths');
+const del = require('del');
 // const pugBeautify = require('gulp-pug-beautify');
 const pug_plugin_ng = require('pug-plugin-ng');
 let pug_opts = { doctype: 'html', plugins: [ pug_plugin_ng ] };
@@ -52,8 +54,15 @@ gulp.task('watch', () => {
 });
 
 gulp.task('clean', () => {
-  return gulp.src(paths.output, {read: false})
-    .pipe(clean({force: true}));
+  return gulp.src(`${paths.output}/**/*`, {read: false})
+    .pipe(vinylPaths( filePath => {
+      const basename = path.basename(filePath);
+      if (basename !== 'app' && basename !== 'assets' && basename !== 'environments') {
+        return del(filePath);
+      }
+
+      return Promise.resolve();
+    }));
 });
 
 gulp.task('dev', done => {
