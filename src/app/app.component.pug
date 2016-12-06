@@ -1,11 +1,14 @@
 extends layout.pug
 
 block header
-  h1 Inspireo
+  app-main-header(caption='Inspireo')
 
 block content
   section
     app-marketing-message-block
+
+  section
+    app-sample-inspiration-block
 
   section
     app-tel-input-form

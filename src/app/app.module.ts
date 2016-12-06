@@ -6,12 +6,16 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { MarketingMessageBlockComponent } from './marketing-message-block/marketing-message-block.component';
 import { TelInputFormComponent } from './tel-input-form/tel-input-form.component';
+import { MainHeaderComponent } from './main-header/main-header.component';
+import { SampleInspirationBlockComponent } from './sample-inspiration-block/sample-inspiration-block.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    MainHeaderComponent,
     MarketingMessageBlockComponent,
-    TelInputFormComponent
+    TelInputFormComponent,
+    SampleInspirationBlockComponent
   ],
   imports: [
     BrowserModule,
