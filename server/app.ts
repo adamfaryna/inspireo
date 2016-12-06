@@ -5,7 +5,6 @@ import * as path from 'path';
 import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
-import 'express-serve-static-core';
 
 const app = express();
 

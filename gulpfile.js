@@ -7,6 +7,7 @@ const vinylPaths = require('vinyl-paths');
 const del = require('del');
 const pug_plugin_ng = require('pug-plugin-ng');
 const ts = require('gulp-typescript');
+const sourcemaps = require('gulp-sourcemaps');
 const pug_opts = { doctype: 'html', plugins: [ pug_plugin_ng ] };
 
 const paths = {
@@ -17,10 +18,15 @@ const paths = {
     style: './client/**/*.styl',
     ts: './client/**/*.ts',
     src: ['./client/**/*.{json,js,ico,ttf,ts}', './client/**/.*']
-  }
+  },
   server: {
-    input: './server/**/*.ts',
+    input: './server',
+    ts: './server/**/*.ts',
     output: './build_server'
+  },
+  shared: {
+    inpit: './shared',
+    ts: './shared/**/*.ts'
   }
 };
 
@@ -44,14 +50,35 @@ gulp.task('client:copy', done => {
     .on('end', done);
 });
 
-gulp.task('ts:server', done => {
-  gulp.src(paths.server.input, { base: paths.server.output })
+gulp.task('server:ts', () => {
+  const result = gulp.src(paths.server.ts)
+    .pipe(sourcemaps.init())
     .pipe(ts({
+      rootDir: paths.server.input,
       module: 'commonjs',
-      target: 'es6'
-    }))
-    .pipe(gulp.dest(paths.server.output))
-    .on('end', done);
+      target: 'es6',
+      outDir: paths.server.output
+    }));
+
+    return result.js
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest(paths.server.output));
+});
+
+gulp.task('shared:ts', () => {
+  const result = gulp.src(paths.shared.ts)
+    .pipe(gulp.dest(`${paths.client.output}/app`))
+    .pipe(sourcemaps.init())
+    .pipe(ts({
+      rootDir: paths.shared.input,
+      module: 'commonjs',
+      target: 'es6',
+      outDir: paths.server.output
+    }));
+
+    return result.js
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest(paths.server.output));
 });
 
 gulp.task('client:watch', () => {
@@ -61,7 +88,7 @@ gulp.task('client:watch', () => {
 });
 
 gulp.task('server:watch', () => {
-  gulp.watch(paths.server.input, ['ts:server']);
+  gulp.watch(paths.server.input, ['server:ts']);
 });
 
 gulp.task('watch', ['client:watch', 'server:watch']);
@@ -85,14 +112,16 @@ gulp.task('server:clean', () => {
 
 gulp.task('clean', ['client:clean', 'server:clean']);
 
-gulp.task('client:build', () => {
+gulp.task('client:build', done => {
   runSequence('client:clean', ['client:copy', 'client:style', 'client:pug'], done);
 });
 
 gulp.task('server:build', done => {
-  runSequence('server:clean', 'ts:server', done);
+  runSequence('server:clean', 'server:ts', done);
 });
 
-gulp.task('build', 'default');
+gulp.task('shared:build', ['shared:ts']);
 
-gulp.task('default', ['server:build', 'client:build']);
+gulp.task('build', ['default']);
+
+gulp.task('default', ['shared:build', 'server:build', 'client:build']);

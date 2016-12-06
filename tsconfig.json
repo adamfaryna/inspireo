@@ -1,26 +1,23 @@
 {
   "compilerOptions": {
-    "baseUrl": "",
     "allowSyntheticDefaultImports": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "commonjs",
+    "lib": [
+      "dom",
+      "es2015"
+    ],
+    "module": "es2015",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es6",
-    "typeRoots": [
-      "../node_modules/@types",
-      "../node_modules"
-    ]
+    "target": "es5"
   },
   "include": [
-    "**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "**/.baseDir.ts",
-    "**/_all.d.ts"
+    "node_modules"
   ],
   "compileOnSave": false,
   "atom": {
