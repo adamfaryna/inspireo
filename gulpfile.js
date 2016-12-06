@@ -16,7 +16,6 @@ const paths = {
     output: './build_client',
     pug: './client/**/*.pug',
     style: './client/**/*.styl',
-    ts: './client/**/*.ts',
     src: ['./client/**/*.{json,js,ico,ttf,ts}', './client/**/.*']
   },
   server: {
@@ -25,7 +24,7 @@ const paths = {
     output: './build_server'
   },
   shared: {
-    inpit: './shared',
+    input: './shared',
     ts: './shared/**/*.ts'
   }
 };
@@ -50,7 +49,14 @@ gulp.task('client:copy', done => {
     .on('end', done);
 });
 
-gulp.task('server:ts', () => {
+gulp.task('client:ts', ['client:shared:ts']);
+
+gulp.task('client:shared:ts', () => {
+  gulp.src(paths.shared.ts, { base: paths.shared.input})
+    .pipe(gulp.dest(`${paths.client.output}/app`));
+});
+
+gulp.task('server:ts', ['server:shared:ts'], () => {
   const result = gulp.src(paths.server.ts)
     .pipe(sourcemaps.init())
     .pipe(ts({
@@ -65,9 +71,8 @@ gulp.task('server:ts', () => {
       .pipe(gulp.dest(paths.server.output));
 });
 
-gulp.task('shared:ts', () => {
+gulp.task('server:shared:ts', () => {
   const result = gulp.src(paths.shared.ts)
-    .pipe(gulp.dest(`${paths.client.output}/app`))
     .pipe(sourcemaps.init())
     .pipe(ts({
       rootDir: paths.shared.input,
@@ -112,16 +117,10 @@ gulp.task('server:clean', () => {
 
 gulp.task('clean', ['client:clean', 'server:clean']);
 
-gulp.task('client:build', done => {
-  runSequence('client:clean', ['client:copy', 'client:style', 'client:pug'], done);
-});
-
-gulp.task('server:build', done => {
-  runSequence('server:clean', 'server:ts', done);
-});
-
-gulp.task('shared:build', ['shared:ts']);
-
+gulp.task('client:build', ['client:ts', 'client:copy', 'client:style', 'client:pug']);
+gulp.task('server:build', ['server:ts']);
 gulp.task('build', ['default']);
 
-gulp.task('default', ['shared:build', 'server:build', 'client:build']);
+gulp.task('default', done => {
+  runSequence('clean', ['client:build', 'server:build'], done);
+});

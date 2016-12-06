@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Inspiration } from '../inspiration';
+import { Inspiration } from '../model/inspiration';
 
 @Component({
   selector: 'app-sample-inspiration-block',
@@ -10,11 +10,6 @@ import { Inspiration } from '../inspiration';
 export class SampleInspirationBlockComponent implements OnInit {
 
   constructor() { }
-
-  inspirations = [
-    new
-  ];
-
 
   inspiration = new Inspiration('ala ma kota', 'focus');
 
