@@ -8,7 +8,7 @@
     "start": "gulp && concurrently --kill-others \"npm run _server:dist\" \"ng serve\" \"gulp watch\"",
     "debug": "gulp && concurrently --kill-others \"npm run _server:debug\" \"ng serve\" \"gulp watch\"",
     "dist": "gulp && ng build && NODE_ENV=production & npm run _server:dist",
-    "_server:debug": "DEBUG=express:* & npm run _server:dist",
+    "_server:debug": "DEBUG=express:* & nodemon --debug-brk ./bin/www",
     "_server:dist": "nodemon ./bin/www",
     "postinstall": "gulp && ng build"
   },

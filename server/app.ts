@@ -5,11 +5,12 @@ import * as path from 'path';
 import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
+import inspirationsRouter from './routes/api/inspiration.route';
 
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'build'));
+app.set('views', path.join(__dirname, 'build_server/views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
@@ -30,6 +31,8 @@ if (isDevelopment()) {
   app.use('/', express.static(path.join(__dirname, 'dist_client')));
 }
 
+app.use('/api', inspirationsRouter);
+
 // catch 404 and forward to error handler
 app.use( (req, res, next) => {
   const err: any = new Error('Not Found');
@@ -45,7 +48,7 @@ app.use( (err: any, req: express.Request, res: express.Response, next: express.N
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  // res.render('error');
 });
 
 module.exports = app;

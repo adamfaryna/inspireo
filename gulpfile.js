@@ -21,7 +21,8 @@ const paths = {
   server: {
     input: './server',
     ts: './server/**/*.ts',
-    output: './build_server'
+    output: './build_server',
+    src: './server/**/*.ts'
   },
   shared: {
     input: './shared',
@@ -56,30 +57,14 @@ gulp.task('client:shared:ts', () => {
     .pipe(gulp.dest(`${paths.client.output}/app`));
 });
 
-gulp.task('server:ts', ['server:shared:ts'], () => {
-  const result = gulp.src(paths.server.ts)
-    .pipe(sourcemaps.init())
-    .pipe(ts({
-      rootDir: paths.server.input,
-      module: 'commonjs',
-      target: 'es6',
-      outDir: paths.server.output
-    }));
+gulp.task('server:ts', () => {
+  const tsProject = ts.createProject('tsconfig.server.json', {
+    typescript: require('typescript')
+  });
 
-    return result.js
-      .pipe(sourcemaps.write())
-      .pipe(gulp.dest(paths.server.output));
-});
-
-gulp.task('server:shared:ts', () => {
-  const result = gulp.src(paths.shared.ts)
+  const result = gulp.src([ paths.server.ts, paths.shared.ts ])
     .pipe(sourcemaps.init())
-    .pipe(ts({
-      rootDir: paths.shared.input,
-      module: 'commonjs',
-      target: 'es6',
-      outDir: paths.server.output
-    }));
+    .pipe(tsProject());
 
     return result.js
       .pipe(sourcemaps.write())
@@ -93,7 +78,7 @@ gulp.task('client:watch', () => {
 });
 
 gulp.task('server:watch', () => {
-  gulp.watch(paths.server.input, ['server:ts']);
+  gulp.watch(paths.server.src, ['server:ts']);
 });
 
 gulp.task('watch', ['client:watch', 'server:watch']);

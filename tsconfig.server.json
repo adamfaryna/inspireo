@@ -5,18 +5,22 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": [ "dom", "es2015" ],
-    "module": "es2015",
+    "lib": [ "es6" ],
+    "module": "commonjs",
+    "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es5",
     "paths": {
       "*": [
-        "client/*",
         "server/*",
         "shared/*"
       ]
-    }
+    },
+    "rootDirs": [
+      "server",
+      "shared"
+    ],
+    "outDir": "build_server"
   },
   "exclude": [
     "node_modules"
