@@ -11,6 +11,11 @@ export class SampleInspirationBlockComponent implements OnInit {
 
   constructor() { }
 
+  inspirations = [
+    new
+  ];
+
+
   inspiration = new Inspiration('ala ma kota', 'focus');
 
   ngOnInit() {
