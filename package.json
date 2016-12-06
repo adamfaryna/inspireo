@@ -3,14 +3,17 @@
   "version": "0.0.0",
   "license": "MIT",
   "description": "",
-  "main": "./bin/www",
+  "main": "./build_server/app.js",
   "scripts": {
-    "start": "gulp && concurrently --kill-others \"ng serve\" \"npm run _server:dist\" \"gulp watch\"",
-    "debug": "npm run _build:client && concurrently --kill-others \"ng serve\" \"npm run _server:debug\" \"gulp watch\"",
-    "_server:debug": "DEBUG=express:* & nodemon ./bin/www",
-    "_server:dist": "nodemon ./bin/www",
+    "start": "gulp && npm run _build && concurrently --kill-others \"ng serve\" \"npm run _server:dist\" \"gulp watch\"",
+    "debug": "npm run _build && concurrently --kill-others \"ng serve\" \"npm run _server:debug\" \"gulp watch\"",
+    "dist": "NODE_ENV=production & npm run _build && npm run _server:dist",
+    "_server:debug": "DEBUG=express:* & npm run _server:dist",
+    "_server:dist": "nodemon ./build_server/app.js",
+    "_build": "npm run _build:server && npm run _build:client",
     "_build:client": "gulp build",
-    "postinstall": "npm run _build:client && ng build"
+    "_build:server": "tsc --baseUrl './' --outDir './build_server'",
+    "postinstall": "npm run _build && ng build"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +54,7 @@
     "gulp-clean": "^0.3.2",
     "gulp-pug": "^3.2.0",
     "gulp-stylus": "^2.6.0",
+    "gulp-ts": "^0.3.0",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",
     "karma": "1.2.0",

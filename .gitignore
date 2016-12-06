@@ -31,6 +31,9 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
+/build_client
+/build_server
+
 #System Files
 .DS_Store
 Thumbs.db

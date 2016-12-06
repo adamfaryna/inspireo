@@ -5,8 +5,7 @@
     "node_modules"
   ],
   "watch": [
-    "bin/www",
-    "app.js"
+    "build_server/**/*.js"
   ],
   "ext": "js json"
 }

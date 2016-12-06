@@ -6,15 +6,20 @@ const runSequence = require('run-sequence');
 const vinylPaths = require('vinyl-paths');
 const del = require('del');
 const pug_plugin_ng = require('pug-plugin-ng');
+const ts = require('gulp-ts');
 const pug_opts = { doctype: 'html', plugins: [ pug_plugin_ng ] };
 
 const paths = {
-  style: ['./src/**/*.styl'],
-  pug: ['./src/**/*.pug'],
-  ts: ['./src/**/*.ts'],
-  src: ['./src/**/*.{json,js,ico,ttf,ts}', './src/**/.*'],
-  input: './src',
-  output: './build'
+  style: ['./client/**/*.styl'],
+  pug: ['./client/**/*.pug'],
+  ts: ['./client/**/*.ts'],
+  src: ['./client/**/*.{json,js,ico,ttf,ts}', './client/**/.*'],
+  input: './client',
+  output: './build_client',
+  server: {
+    input: './server/**/*.ts',
+    output: './build_server'
+  }
 };
 
 gulp.task('pug', done => {
@@ -34,6 +39,13 @@ gulp.task('style', done => {
 gulp.task('copy', done => {
   gulp.src(paths.src, { base: paths.input })
     .pipe(gulp.dest(paths.output))
+    .on('end', done);
+});
+
+gulp.task('ts:server', done => {
+  gulp.src(paths.server.input, { base: paths.server.output })
+    .pipe(ts())
+    .pipe(gulp.dest(paths.server.output))
     .on('end', done);
 });
 
