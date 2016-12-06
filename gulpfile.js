@@ -5,15 +5,14 @@ const stylus = require('gulp-stylus');
 const runSequence = require('run-sequence');
 const vinylPaths = require('vinyl-paths');
 const del = require('del');
-// const pugBeautify = require('gulp-pug-beautify');
 const pug_plugin_ng = require('pug-plugin-ng');
-let pug_opts = { doctype: 'html', plugins: [ pug_plugin_ng ] };
+const pug_opts = { doctype: 'html', plugins: [ pug_plugin_ng ] };
 
 const paths = {
   style: ['./src/**/*.styl'],
   pug: ['./src/**/*.pug'],
   ts: ['./src/**/*.ts'],
-  src: ['./src/**/*.{json,js,ico,ttf,css,ts}', './src/**/.*'],
+  src: ['./src/**/*.{json,js,ico,ttf,ts}', './src/**/.*'],
   input: './src',
   output: './build'
 };
@@ -21,7 +20,6 @@ const paths = {
 gulp.task('pug', done => {
   gulp.src(paths.pug, { base: paths.input })
     .pipe(pug(pug_opts))
-    // .pipe(pugBeautify({ omit_empty: true }))
     .pipe(gulp.dest(paths.output))
     .on('end', done);
 });
@@ -57,12 +55,8 @@ gulp.task('clean', () => {
     }));
 });
 
-gulp.task('dev', done => {
-  runSequence('default', 'watch', done);
+gulp.task('build', done => {
+  runSequence('clean', 'default', done);
 });
 
-gulp.task('build', ['default']);
-
-gulp.task('default', done => {
-  runSequence('clean', ['copy', 'style', 'pug'], done);
-});
+gulp.task('default', ['copy', 'style', 'pug']);
