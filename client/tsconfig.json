@@ -2,6 +2,9 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "lib": [ "dom", "es6" ],
+    "typeRoots": [
+      "../node_modules/@types"
+    ],
     "mapRoot": "./",
     "outDir": "../dist/out-tsc"
   }

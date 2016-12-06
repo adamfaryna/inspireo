@@ -10,14 +10,17 @@
     "sourceMap": true,
     "target": "es6",
     "typeRoots": [
-      "../node_modules/@types"
+      "../node_modules/@types",
+      "../node_modules"
     ]
   },
   "include": [
     "**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/.baseDir.ts",
+    "**/_all.d.ts"
   ],
   "compileOnSave": false,
   "atom": {
