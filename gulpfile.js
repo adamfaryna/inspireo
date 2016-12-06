@@ -6,57 +6,68 @@ const runSequence = require('run-sequence');
 const vinylPaths = require('vinyl-paths');
 const del = require('del');
 const pug_plugin_ng = require('pug-plugin-ng');
-const ts = require('gulp-ts');
+const ts = require('gulp-typescript');
 const pug_opts = { doctype: 'html', plugins: [ pug_plugin_ng ] };
 
 const paths = {
-  style: ['./client/**/*.styl'],
-  pug: ['./client/**/*.pug'],
-  ts: ['./client/**/*.ts'],
-  src: ['./client/**/*.{json,js,ico,ttf,ts}', './client/**/.*'],
-  input: './client',
-  output: './build_client',
+  client: {
+    input: './client',
+    output: './build_client',
+    pug: './client/**/*.pug',
+    style: './client/**/*.styl',
+    ts: './client/**/*.ts',
+    src: ['./client/**/*.{json,js,ico,ttf,ts}', './client/**/.*']
+  }
   server: {
     input: './server/**/*.ts',
     output: './build_server'
   }
 };
 
-gulp.task('pug', done => {
-  gulp.src(paths.pug, { base: paths.input })
+gulp.task('client:pug', done => {
+  gulp.src(paths.client.pug, { base: paths.client.input })
     .pipe(pug(pug_opts))
-    .pipe(gulp.dest(paths.output))
+    .pipe(gulp.dest(paths.client.output))
     .on('end', done);
 });
 
-gulp.task('style', done => {
-  gulp.src(paths.style, { base: paths.input })
+gulp.task('client:style', done => {
+  gulp.src(paths.client.style, { base: paths.client.input })
     .pipe(stylus())
-    .pipe(gulp.dest(paths.output))
+    .pipe(gulp.dest(paths.client.output))
     .on('end', done);
 });
 
-gulp.task('copy', done => {
-  gulp.src(paths.src, { base: paths.input })
-    .pipe(gulp.dest(paths.output))
+gulp.task('client:copy', done => {
+  gulp.src(paths.client.src, { base: paths.client.input })
+    .pipe(gulp.dest(paths.client.output))
     .on('end', done);
 });
 
 gulp.task('ts:server', done => {
   gulp.src(paths.server.input, { base: paths.server.output })
-    .pipe(ts())
+    .pipe(ts({
+      module: 'commonjs',
+      target: 'es6'
+    }))
     .pipe(gulp.dest(paths.server.output))
     .on('end', done);
 });
 
-gulp.task('watch', () => {
-  gulp.watch(paths.style, ['style']);
-  gulp.watch(paths.pug, ['pug']);
-  gulp.watch(paths.src, ['copy']);
+gulp.task('client:watch', () => {
+  gulp.watch(paths.client.style, ['client:style']);
+  gulp.watch(paths.client.pug, ['client:pug']);
+  gulp.watch(paths.client.src, ['client:copy']);
 });
 
-gulp.task('clean', () => {
-  return gulp.src(`${paths.output}/**/*`, { read: false })
+gulp.task('server:watch', () => {
+  gulp.watch(paths.server.input, ['ts:server']);
+});
+
+gulp.task('watch', ['client:watch', 'server:watch']);
+
+gulp.task('client:clean', () => {
+  return gulp.src(`${paths.client.output}/**/*`, { read: false })
     .pipe(vinylPaths( filePath => {
       const basename = path.basename(filePath);
       if (basename !== 'app' && basename !== 'assets' && basename !== 'environments') {
@@ -67,8 +78,21 @@ gulp.task('clean', () => {
     }));
 });
 
-gulp.task('build', done => {
-  runSequence('clean', 'default', done);
+gulp.task('server:clean', () => {
+  return gulp.src(`${paths.server.output}`, { read: false})
+    .pipe(vinylPaths(del));
 });
 
-gulp.task('default', ['copy', 'style', 'pug']);
+gulp.task('clean', ['client:clean', 'server:clean']);
+
+gulp.task('client:build', () => {
+  runSequence('client:clean', ['client:copy', 'client:style', 'client:pug'], done);
+});
+
+gulp.task('server:build', done => {
+  runSequence('server:clean', 'ts:server', done);
+});
+
+gulp.task('build', 'default');
+
+gulp.task('default', ['server:build', 'client:build']);
