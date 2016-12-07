@@ -16,7 +16,11 @@
         "server/*",
         "shared/*"
       ]
-    }
+    },
+    "rootDirs": [
+      "client/app",
+      "shared"
+    ]
   },
   "exclude": [
     "node_modules"

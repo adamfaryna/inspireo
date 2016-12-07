@@ -23,7 +23,7 @@ const paths = {
     input: './server',
     ts: './server/**/*.ts',
     output: './build_server',
-    src: './server/**/*.ts'
+    other: './server/**/*.json'
   },
   shared: {
     input: './shared',
@@ -31,24 +31,21 @@ const paths = {
   }
 };
 
-gulp.task('client:pug', done => {
+gulp.task('client:pug', () => {
   gulp.src(paths.client.pug, { base: paths.client.input })
     .pipe(pug(pug_opts))
-    .pipe(gulp.dest(paths.client.output))
-    .on('end', done);
+    .pipe(gulp.dest(paths.client.output));
 });
 
-gulp.task('client:style', done => {
+gulp.task('client:style', () => {
   gulp.src(paths.client.style, { base: paths.client.input })
     .pipe(stylus())
-    .pipe(gulp.dest(paths.client.output))
-    .on('end', done);
+    .pipe(gulp.dest(paths.client.output));
 });
 
-gulp.task('client:copy', done => {
+gulp.task('client:other', () => {
   gulp.src(paths.client.src, { base: paths.client.input })
-    .pipe(gulp.dest(paths.client.output))
-    .on('end', done);
+    .pipe(gulp.dest(paths.client.output));
 });
 
 gulp.task('client:ts', ['client:shared:ts']);
@@ -72,14 +69,20 @@ gulp.task('server:ts', () => {
       .pipe(gulp.dest(paths.server.output));
 });
 
+gulp.task('server:other', () => {
+  gulp.src(paths.server.other, { base: paths.server.input })
+    .pipe(gulp.dest(paths.server.output));
+});
+
 gulp.task('client:watch', () => {
   watch(paths.client.style, () => gulp.start('client:style'));
   watch(paths.client.pug, () => gulp.start('client:pug'));
-  watch(paths.client.src, () => gulp.start('client:copy'));
+  watch(paths.client.src, () => gulp.start('client:other'));
 });
 
 gulp.task('server:watch', () => {
-  watch(paths.server.src, () => gulp.start('server:ts'));
+  watch(paths.server.ts, () => gulp.start('server:ts'));
+  watch(paths.server.other, () => gulp.start('server:other'));
 });
 
 gulp.task('watch', ['client:watch', 'server:watch']);
@@ -103,8 +106,8 @@ gulp.task('server:clean', () => {
 
 gulp.task('clean', ['client:clean', 'server:clean']);
 
-gulp.task('client:build', ['client:ts', 'client:copy', 'client:style', 'client:pug']);
-gulp.task('server:build', ['server:ts']);
+gulp.task('client:build', ['client:ts', 'client:other', 'client:style', 'client:pug']);
+gulp.task('server:build', ['server:ts', 'server:other']);
 gulp.task('build', ['default']);
 
 gulp.task('default', done => {

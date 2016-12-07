@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Inspiration, InspirationService } from '../service/inspiration/inspiration.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { Inspiration, InspirationService } from '../service/inspiration/inspirat
 })
 export class SampleInspirationBlockComponent implements OnInit {
 
-  constructor(private inspirationService: InspirationService) {}
+  constructor(@Inject(InspirationService) private inspirationService: InspirationService) {}
 
   inspiration: Inspiration;
   errorMessage: any;

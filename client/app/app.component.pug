@@ -1,14 +1,14 @@
 extends layout.pug
 
 block header
-  app-main-header(caption='Inspireo')
+  app-main-header([caption]='title')
 
 block content
   section
     app-marketing-message-block
 
   section
-    app-sample-inspiration-block
+    app-tel-input-form
 
   section
-    app-tel-input-form
+    app-sample-inspiration-block
