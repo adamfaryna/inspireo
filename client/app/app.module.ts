@@ -8,6 +8,8 @@ import { MarketingMessageBlockComponent } from './marketing-message-block/market
 import { TelInputFormComponent } from './tel-input-form/tel-input-form.component';
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { SampleInspirationBlockComponent } from './sample-inspiration-block/sample-inspiration-block.component';
+import { InspirationService } from './service/inspiration/inspiration.service';
+
 
 @NgModule({
   declarations: [
@@ -22,7 +24,7 @@ import { SampleInspirationBlockComponent } from './sample-inspiration-block/samp
     FormsModule,
     HttpModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ InspirationService ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

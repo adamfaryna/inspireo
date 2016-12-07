@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Inspiration } from '../model/inspiration';
+import { Inspiration, InspirationService } from '../service/inspiration/inspiration.service';
 
 @Component({
   selector: 'app-sample-inspiration-block',
@@ -9,11 +9,16 @@ import { Inspiration } from '../model/inspiration';
 })
 export class SampleInspirationBlockComponent implements OnInit {
 
-  constructor() { }
+  constructor(private inspirationService: InspirationService) {}
 
-  inspiration = new Inspiration('ala ma kota', 'focus');
+  inspiration: Inspiration;
+  errorMessage: any;
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.inspirationService.getInspiration()
+      .subscribe(
+        inspiration => this.inspiration = inspiration,
+        error => this.errorMessage = <any>error
+      );
   }
-
 }
