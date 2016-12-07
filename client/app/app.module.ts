@@ -10,14 +10,13 @@ import { MainHeaderComponent } from './main-header/main-header.component';
 import { SampleInspirationBlockComponent } from './sample-inspiration-block/sample-inspiration-block.component';
 import { InspirationService } from './service/inspiration/inspiration.service';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     MainHeaderComponent,
     MarketingMessageBlockComponent,
     TelInputFormComponent,
-    SampleInspirationBlockComponent
+    SampleInspirationBlockComponent,
   ],
   imports: [
     BrowserModule,

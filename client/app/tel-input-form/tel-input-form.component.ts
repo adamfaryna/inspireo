@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-tel-input-form',
@@ -6,19 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tel-input-form.component.css'],
   host: { class: 'content-block' }
 })
-export class TelInputFormComponent implements OnInit {
+export class TelInputFormComponent {
 
   constructor() { }
+
+  submitted: boolean = false;
 
   model: {tel: string} = {
     tel: ''
   };
 
   submit() {
-
+    this.submitted = true;
   }
-
-  ngOnInit() {
-  }
-
 }

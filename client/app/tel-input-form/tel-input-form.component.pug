@@ -1,3 +1,17 @@
-p Put your phone number here
-input(type='tel' [(ngModel)]='model.tel' name='tel' required placeholder='Put your phone number here')
-button((click)='submit()') Inspire Me!
+div([hidden]='submitted')
+  p Put your phone number here we will send you free inspirational sms everyday.
+  form(#form='ngForm')
+    input(
+      type='text'
+      [(ngModel)]='model.tel'
+      name='tel'
+      required
+      placeholder='Put your phone number here'
+      #tel="ngModel"
+    )
+    button.btn.btn-default(type='button' [disabled]='!form.form.valid' (click)='submit(); form.reset();') Inspire Me!
+    .alert.alert-danger([hidden]='tel.valid || tel.pristine') Phone number is required.
+
+.alert.alert-success([hidden]='!submitted')
+  h3 Congratulations!
+  p You will get your first inspiring text soon.

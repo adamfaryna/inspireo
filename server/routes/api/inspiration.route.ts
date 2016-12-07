@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as express from 'express';
-// import { Inspiration } from '../../model/inspiration';
 
 const router = express.Router();
 

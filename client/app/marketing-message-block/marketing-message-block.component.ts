@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-marketing-message-block',
@@ -6,11 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./marketing-message-block.component.css'],
   host: { class: 'content-block' }
 })
-export class MarketingMessageBlockComponent implements OnInit {
+export class MarketingMessageBlockComponent {
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }
