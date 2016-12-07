@@ -2,6 +2,7 @@ const path = require('path');
 const gulp = require('gulp');
 const pug = require('gulp-pug');
 const stylus = require('gulp-stylus');
+const watch = require('gulp-watch');
 const runSequence = require('run-sequence');
 const vinylPaths = require('vinyl-paths');
 const del = require('del');
@@ -72,13 +73,13 @@ gulp.task('server:ts', () => {
 });
 
 gulp.task('client:watch', () => {
-  gulp.watch(paths.client.style, ['client:style']);
-  gulp.watch(paths.client.pug, ['client:pug']);
-  gulp.watch(paths.client.src, ['client:copy']);
+  watch(paths.client.style, () => gulp.start('client:style'));
+  watch(paths.client.pug, () => gulp.start('client:pug'));
+  watch(paths.client.src, () => gulp.start('client:copy'));
 });
 
 gulp.task('server:watch', () => {
-  gulp.watch(paths.server.src, ['server:ts']);
+  watch(paths.server.src, () => gulp.start('server:ts'));
 });
 
 gulp.task('watch', ['client:watch', 'server:watch']);
