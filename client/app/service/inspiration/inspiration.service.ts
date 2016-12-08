@@ -9,9 +9,10 @@ export class InspirationService {
 
   constructor(@Inject(Http) private http: Http) {}
 
+  private protocol = environment.protocol;
   private host = environment.apiHost;
   private port = environment.apiPort;
-  private url = `${this.host}:${this.port}/api/inspiration`;
+  private url = `${this.protocol}${this.host}:${this.port}/api/inspiration`;
 
   getInspiration(): Observable<Inspiration> {
     return this.http.get(this.url)
