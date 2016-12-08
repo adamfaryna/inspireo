@@ -34,6 +34,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressValidator());
 
+console.log('process.env.NODE_ENV: ' + process.env.NODE_ENV);
+
 function isDevelopment() {
   return process.env.NODE_ENV !== 'production';
 }
@@ -42,7 +44,7 @@ if (isDevelopment()) {
   app.use('/', express.static(path.join(__dirname, 'build_client')));
 
 } else {
-  app.use('/', express.static(path.join(__dirname, 'dist_client')));
+  app.use('/', express.static(path.join(__dirname, 'dist')));
 }
 
 app.use( (req, res, next) => {

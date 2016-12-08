@@ -6,7 +6,6 @@ const router = express.Router();
 router.get('/', (req: express.Request, res: express.Response) => {
   InspirationService.getInstance().getRandom()
     .then( inspiration => {
-      console.log('inspiration: ' + inspiration);
       res.json({ data: inspiration });
     }, console.log);
 });

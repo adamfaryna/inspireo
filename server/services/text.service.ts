@@ -24,8 +24,12 @@ export class TextService {
          `fromNumber=${process.env.TEXT_FROM_NUMBER || process.env.PURETEXT_FROM_NUMBER}` +
          `&apiToken=${process.env.PURETEXT_API_TOKEN || process.env.PURETEXT_API_TOKEN}` +
          `&toNumber=${text.toNumber}` +
-         `&smsBody=${encodeURIComponent(text.content)}`;
-      request(serviceUrl, resolve);
-    });
+         `&smsBody=${encodeURIComponent(text.content.slice(0, 99))}`;
+         console.log('serviceUrl: ' + serviceUrl);
+
+      request(serviceUrl)
+        .on('error', console.log)
+        .on('response', resolve);
+    }).catch(console.log);
   }
 }

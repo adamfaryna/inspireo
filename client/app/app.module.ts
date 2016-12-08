@@ -9,6 +9,7 @@ import { TelInputFormComponent } from './tel-input-form/tel-input-form.component
 import { MainHeaderComponent } from './main-header/main-header.component';
 import { SampleInspirationBlockComponent } from './sample-inspiration-block/sample-inspiration-block.component';
 import { InspirationService } from './service/inspiration/inspiration.service';
+import { UserService } from './service/user/user.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { InspirationService } from './service/inspiration/inspiration.service';
     FormsModule,
     HttpModule
   ],
-  providers: [ InspirationService ],
+  providers: [ InspirationService, UserService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

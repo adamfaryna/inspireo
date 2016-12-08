@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { UserService } from '../service/user/user.service';
 
 @Component({
   selector: 'app-tel-input-form',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
 })
 export class TelInputFormComponent {
 
-  constructor() { }
+  constructor(@Inject(UserService) private userService: UserService) { }
 
   submitted: boolean = false;
 
@@ -18,5 +19,6 @@ export class TelInputFormComponent {
 
   submit() {
     this.submitted = true;
+    this.userService.saveUser('Adam', '+44 07404717700');
   }
 }
