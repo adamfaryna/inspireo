@@ -14,7 +14,7 @@
     "ng:serve": "node node_modules/angular-cli/bin/ng",
     "ng:build:dist": "node node_modules/angular-cli/bin/ng build --prod",
     "_server:debug": "DEBUG=express:* nodemon --debug-brk ./bin/www",
-    "_server:dist": "NODE_ENV=production nodemon ./bin/www",
+    "_server:dist": "NODE_ENV=production node ./bin/www",
     "postinstall": "npm run gulp && npm run ng:build:dist"
   },
   "private": true,
