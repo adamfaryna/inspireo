@@ -2,14 +2,16 @@ import { Injectable, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Inspiration } from '../../model/inspiration';
-
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class InspirationService {
 
   constructor(@Inject(Http) private http: Http) {}
 
-  private url = 'http://localhost:3000/api/inspiration';
+  private host = environment.apiHost;
+  private port = environment.apiPort;
+  private url = `${this.host}:${this.port}/api/inspiration`;
 
   getInspiration(): Observable<Inspiration> {
     return this.http.get(this.url)

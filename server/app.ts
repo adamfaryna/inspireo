@@ -34,17 +34,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressValidator());
 
-console.log('process.env.NODE_ENV: ' + process.env.NODE_ENV);
+console.log(`Running ${isProduction() ? 'production' : 'development'} environment.`);
 
-function isDevelopment() {
-  return process.env.NODE_ENV !== 'production';
-}
-
-if (isDevelopment()) {
-  app.use('/', express.static(path.join(__dirname, 'build_client')));
-
-} else {
-  app.use('/', express.static(path.join(__dirname, 'dist')));
+function isProduction() {
+  return process.env.NODE_ENV === 'production';
 }
 
 app.use( (req, res, next) => {
@@ -55,6 +48,19 @@ app.use( (req, res, next) => {
 });
 
 app.use('/api', apiRouter);
+
+if (isProduction()) {
+  // app.use(express.static(path.join(__dirname, '../build_client/index.html')));
+  // app.use(express.static('../build_client'));
+
+// } else {
+  // app.use(express.static(path.join(__dirname, '../dist_client/index.html')));
+  app.use(express.static('dist_client/'));
+
+  app.use('/', (req, res) => {
+    res.sendFile('dist_client/index.html');
+  });
+}
 
 // catch 404 and forward to error handler
 app.use( (req, res, next) => {

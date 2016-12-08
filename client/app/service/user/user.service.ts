@@ -1,12 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { environment } from '../../../environments/environment';
+
 
 @Injectable()
 export class UserService {
   constructor(@Inject(Http) private http: Http) {}
 
-  private url = 'http://localhost:3000/api/user';
+  private host = environment.apiHost;
+  private port = environment.apiPort;
+  private url = `${this.host}:${this.port}/api/user`;
 
   saveUser(name, phoneNumber) {
     const headers = new Headers({ 'Content-Type': 'application/json' });

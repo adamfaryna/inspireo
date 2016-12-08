@@ -32,26 +32,26 @@ const paths = {
 };
 
 gulp.task('client:pug', () => {
-  gulp.src(paths.client.pug, { base: paths.client.input })
+  return gulp.src(paths.client.pug, { base: paths.client.input })
     .pipe(pug(pug_opts))
     .pipe(gulp.dest(paths.client.output));
 });
 
 gulp.task('client:style', () => {
-  gulp.src(paths.client.style, { base: paths.client.input })
+  return gulp.src(paths.client.style, { base: paths.client.input })
     .pipe(stylus())
     .pipe(gulp.dest(paths.client.output));
 });
 
 gulp.task('client:other', () => {
-  gulp.src(paths.client.src, { base: paths.client.input })
+  return gulp.src(paths.client.src, { base: paths.client.input })
     .pipe(gulp.dest(paths.client.output));
 });
 
 gulp.task('client:ts', ['client:shared:ts']);
 
 gulp.task('client:shared:ts', () => {
-  gulp.src(paths.shared.ts, { base: paths.shared.input})
+  return gulp.src(paths.shared.ts, { base: paths.shared.input})
     .pipe(gulp.dest(`${paths.client.output}/app`));
 });
 
@@ -64,13 +64,13 @@ gulp.task('server:ts', () => {
     .pipe(sourcemaps.init())
     .pipe(tsProject());
 
-    return result.js
-      .pipe(sourcemaps.write())
-      .pipe(gulp.dest(paths.server.output));
+  return result.js
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest(paths.server.output));
 });
 
 gulp.task('server:other', () => {
-  gulp.src(paths.server.other, { base: paths.server.input })
+  return gulp.src(paths.server.other, { base: paths.server.input })
     .pipe(gulp.dest(paths.server.output));
 });
 
@@ -88,7 +88,7 @@ gulp.task('server:watch', () => {
 gulp.task('watch', ['client:watch', 'server:watch']);
 
 gulp.task('client:clean', () => {
-  return gulp.src(`${paths.client.output}/**/*`, { read: false })
+  return gulp.src([`${paths.client.output}/**/*`, './dist_client'], { read: false })
     .pipe(vinylPaths( filePath => {
       const basename = path.basename(filePath);
       if (basename !== 'app' && basename !== 'assets' && basename !== 'environments') {
