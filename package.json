@@ -8,7 +8,7 @@
     "start": "npm run gulp && concurrently --kill-others \"nodemon ./bin/www\" \"npm run ng:serve\" \"npm run gulp:watch\"",
     "debug": "npm run gulp && concurrently --kill-others \"npm run _server:debug\" \"npm run ng:serve\" \"npm run gulp:watch\"",
     "distaaa": "npm run gulp && ng build -prod && pm2 start main.js",
-    "dist": "npm run gulp && npm run ng:build:dist && npm run _server:dist",
+    "dist": "npm run gulp && npm run _server:dist && npm run ng:build:dist",
     "gulp": "node node_modules/gulp/bin/gulp",
     "gulp:watch": "node node_modules/gulp/bin/gulp watch",
     "ng:serve": "node node_modules/angular-cli/bin/ng",
