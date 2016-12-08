@@ -1,14 +1,14 @@
-import * as fs from 'fs';
 import * as express from 'express';
+import { InspirationService } from '../../services/inspiration.service';
 
 const router = express.Router();
 
-let inspirations = fs.readFileSync(`${__dirname}/inspirations.json`);
-inspirations = JSON.parse(<any>inspirations);
-
-router.get('/inspiration', (req: express.Request, res: express.Response) => {
-  const inspirationIndex = Math.floor(Math.random() * inspirations.length);
-  res.json({ data: inspirations[inspirationIndex] });
+router.get('/', (req: express.Request, res: express.Response) => {
+  InspirationService.getInstance().getRandom()
+    .then( inspiration => {
+      console.log('inspiration: ' + inspiration);
+      res.json({ data: inspiration });
+    }, console.log);
 });
 
-export default router;
+export const inspirationRouter = router;

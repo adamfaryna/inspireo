@@ -5,9 +5,22 @@ import * as path from 'path';
 import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
-import inspirationsRouter from './routes/api/inspiration.route';
+import { apiRouter } from './routes/api.route';
 
+const expressValidator = require('express-validator');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const chalk = require('chalk');
+
+dotenv.config();
 const app = express();
+
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+mongoose.connection.on('error', () => {
+  console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
+  process.exit();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'build_server/views'));
@@ -19,6 +32,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(expressValidator());
 
 function isDevelopment() {
   return process.env.NODE_ENV !== 'production';
@@ -38,7 +52,7 @@ app.use( (req, res, next) => {
   next();
 });
 
-app.use('/api', inspirationsRouter);
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use( (req, res, next) => {

@@ -7,9 +7,7 @@ import { Inspiration } from '../../model/inspiration';
 @Injectable()
 export class InspirationService {
 
-  constructor(@Inject(Http) private http: Http) {
-
-  }
+  constructor(@Inject(Http) private http: Http) {}
 
   private url = 'http://localhost:3000/api/inspiration';
 
@@ -21,7 +19,7 @@ export class InspirationService {
 
   private extractData(res: Response): any {
     let body = res.json();
-    return body.data ? new Inspiration(body.data.content, body.data.source) : {};
+    return body.data ? new Inspiration(body.data._id, body.data.content, body.data.source) : {};
   }
 
   handleErrors(error: Response | any): Observable<string> {

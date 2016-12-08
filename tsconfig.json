@@ -9,7 +9,7 @@
     "module": "es2015",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es5",
+    "target": "es6",
     "paths": {
       "*": [
         "client/*",
@@ -20,6 +20,9 @@
     "rootDirs": [
       "client/app",
       "shared"
+    ],
+    "typeRoots": [
+      "node_modules/@types"
     ]
   },
   "exclude": [
