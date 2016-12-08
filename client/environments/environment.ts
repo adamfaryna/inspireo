@@ -4,4 +4,4 @@
 // The list of which env maps to which file can be found in `angular-cli.json`.
 import { Environment } from './environment.type';
 
-export const environment = new Environment(false);
+export const environment = new Environment(false, 'localhost', 'http://', ':3000');

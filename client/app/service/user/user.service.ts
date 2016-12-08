@@ -11,7 +11,7 @@ export class UserService {
   private protocol = environment.protocol;
   private host = environment.apiHost;
   private port = environment.apiPort;
-  private url = `${this.protocol}${this.host}:${this.port}/api/user`;
+  private url = `${this.protocol}${this.host}${this.port}/api/user`;
 
   saveUser(name, phoneNumber) {
     const headers = new Headers({ 'Content-Type': 'application/json' });
